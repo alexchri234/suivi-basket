@@ -19,18 +19,27 @@ def demander_a_ia(prompt):
     resultat = response.json()
     return resultat['choices'][0]['message']['content']
 
-# --- Connexion ---
-UTILISATEURS_FICHIER = "utilisateurs_basket.json"
+
+
+BIN_ID = "ton_bin_id_ici"
+MASTER_KEY = "ta_master_key_ici"
+JSONBIN_URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}"
+jsonbin_headers = {"X-Master-Key": MASTER_KEY, "Content-Type": "application/json"}
+
+def charger_donnees():
+    response = requests.get(JSONBIN_URL + "/latest", headers=jsonbin_headers)
+    return response.json()["record"]
+
+def sauvegarder_donnees(donnees):
+    requests.put(JSONBIN_URL, headers=jsonbin_headers, json=donnees)
 
 def charger_utilisateurs():
-    if os.path.exists(UTILISATEURS_FICHIER):
-        with open(UTILISATEURS_FICHIER, "r") as f:
-            return json.load(f)
-    return {}
+    return charger_donnees()["utilisateurs"]
 
 def sauvegarder_utilisateurs(utilisateurs):
-    with open(UTILISATEURS_FICHIER, "w") as f:
-        json.dump(utilisateurs, f)
+    donnees = charger_donnees()
+    donnees["utilisateurs"] = utilisateurs
+    sauvegarder_donnees(donnees)
 
 if "utilisateur_connecte" not in st.session_state:
     st.session_state.utilisateur_connecte = None
@@ -40,9 +49,7 @@ if st.session_state.utilisateur_connecte is None:
     mode = st.radio("Tu es un nouveau coach ou déjà inscrit ?", ["Déjà inscrit", "Nouveau coach"])
     identifiant = st.text_input("Identifiant")
     mot_de_passe = st.text_input("Mot de passe", type="password")
-
     utilisateurs = charger_utilisateurs()
-
     if mode == "Nouveau coach":
         if st.button("Créer mon compte"):
             if identifiant in utilisateurs:
@@ -66,18 +73,14 @@ if st.button("Se déconnecter"):
     st.session_state.utilisateur_connecte = None
     st.rerun()
 
-# --- Fichier de joueurs propre à cet utilisateur ---
-CHEMIN_FICHIER = f"equipe_{st.session_state.utilisateur_connecte}.json"
-
 def charger_equipe():
-    if os.path.exists(CHEMIN_FICHIER):
-        with open(CHEMIN_FICHIER, "r") as f:
-            return json.load(f)
-    return []
+    donnees = charger_donnees()
+    return donnees["equipes"].get(st.session_state.utilisateur_connecte, [])
 
 def sauvegarder_equipe(equipe):
-    with open(CHEMIN_FICHIER, "w") as f:
-        json.dump(equipe, f)
+    donnees = charger_donnees()
+    donnees["equipes"][st.session_state.utilisateur_connecte] = equipe
+    sauvegarder_donnees(donnees)
 
 if "equipe" not in st.session_state:
     st.session_state.equipe = charger_equipe()
