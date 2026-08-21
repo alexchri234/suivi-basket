@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 import json
-import os
 
 st.title("Suivi des joueurs — Prototype")
 
