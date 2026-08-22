@@ -153,6 +153,14 @@ if video_uploadee is not None:
             from mediapipe.tasks.python import vision
             import cv2
             import math
+            import os
+    if not os.path.exists("pose_landmarker.task"):
+        import urllib.request
+        urllib.request.urlretrieve(
+            "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
+            "pose_landmarker.task"
+    )
+    )
 
             base_options = python.BaseOptions(model_asset_path='pose_landmarker.task')
             options = vision.PoseLandmarkerOptions(
