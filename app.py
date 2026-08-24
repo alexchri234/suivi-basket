@@ -223,7 +223,7 @@ if video_uploadee is not None:
 
                 {texte_mesures}
 
-                Analyse ces angles et donne, en tant que coach expérimenté, 3-4 phrases sur ce que ça révèle sur la technique du joueur (fluidité du geste, cohérence entre les angles, points à corriger).
+                Analyse ces angles et donne, en tant que coach expérimenté, 3-4 phrases sur ce que ça révèle sur la technique du joueur (fluidité du geste, cohérence entre les angles, points à corriger, quel exercice pour entrainer les points à corriger).
                 """
                 with st.spinner("Génération de l'analyse..."):
                     analyse_video = demander_a_ia(prompt_video)
