@@ -3,6 +3,63 @@ import pandas as pd
 import requests
 import json
 
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+    background-color: #0B0E14;
+    color: #F5F6F8;
+}
+
+h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    color: #F5F6F8 !important;
+}
+
+.stApp {
+    background-color: #0B0E14;
+}
+
+div[data-testid="stForm"] {
+    background-color: #141821;
+    border: 1px solid #1F2530;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 0 40px rgba(255, 122, 0, 0.08);
+}
+
+.stButton > button {
+    background-color: #FF7A00;
+    color: #0B0E14;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    transition: all 0.2s ease;
+}
+
+.stButton > button:hover {
+    background-color: #FF9433;
+    box-shadow: 0 0 20px rgba(255, 122, 0, 0.4);
+}
+
+input {
+    background-color: #0B0E14 !important;
+    border: 1px solid #1F2530 !important;
+    border-radius: 8px !important;
+    color: #F5F6F8 !important;
+}
+
+input:focus {
+    border-color: #00E5FF !important;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3) !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("Suivi des joueurs — Prototype")
 
 HF_TOKEN = st.secrets["HF_TOKEN"]
